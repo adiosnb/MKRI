@@ -1,0 +1,20 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\selectlanguage}[1]{\relax}
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem{cvut}
+Kačmařík, P.: Vlastnosti a modelovaní aditivního bílého šumu s
+  normálním rozdělením. Technická zpráva, ČVUT, 2009.
+\newline\urlprefix\url{http://noel.feld.cvut.cz/vyu/a2m99czs/pdf/awgn.pdf}
+
+\bibitem{mspr}
+Sysel, P.: Signálové procesory (MPC-SPR 19/20Z). [online], 2019.
+\newline\urlprefix\url{https://moodle.vutbr.cz/course/view.php?id=194086}
+
+\end{thebibliography}
