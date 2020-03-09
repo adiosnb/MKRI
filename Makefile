@@ -1,5 +1,6 @@
 all:
 
+.PHONY: doc
 doc:
 	cd doc && make
 
