@@ -1,0 +1,14 @@
+{% extends "firewall/base.html" %}
+{% block body %}
+    <div class="align-content-center">
+    <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+
+        <h2> Username : {{ form.username }} </h2>
+        <h2> Password:  {{ form.password }} </h2>
+
+        <p><input type="submit" value="login">  </p>
+
+    </form>
+    </div>
+{% endblock body %}
