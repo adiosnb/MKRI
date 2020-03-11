@@ -1,9 +1,13 @@
 \babel@toc {slovak}{}
 \contentsline {chapter}{\numberline {1}Úvod}{2}{chapter.1}%
 \contentsline {chapter}{\numberline {2}Analýza}{3}{chapter.2}%
-\contentsline {section}{\numberline {2.1}todo}{3}{section.2.1}%
-\contentsline {chapter}{\numberline {3}Výsledky}{4}{chapter.3}%
-\contentsline {chapter}{\numberline {4}Záver}{5}{chapter.4}%
+\contentsline {section}{\numberline {2.1}Firewall a filtrovanie}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Implementácia v Linuxovom jadre}{3}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}netfilter}{3}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}iptables}{4}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}nftables}{4}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}bpfilter}{4}{subsection.2.2.4}%
+\contentsline {chapter}{\numberline {3}Záver}{5}{chapter.3}%
 \contentsline {chapter}{Literatúra}{6}{chapter*.2}%
 \ttl@starttoc {chapters@1}
 \contentsfinish 
