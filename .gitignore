@@ -134,6 +134,7 @@ dmypy.json
 *.lo*
 *.to*
 *.bbl
+*.ptc
 *.blg
 *.out
 *.snm
