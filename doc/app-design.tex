@@ -39,3 +39,9 @@
 		Tento firewall používa \texttt{nftables} na filtrovanie sieťovej trafiky. Konfigurácia môže byť 
 		zadaná priamo pomocou programu \texttt{nft} alebo pomocou webového grafického rozhrania, kde je
 		textové pole s aktuálnou konfiguráciou, ktorú možno upravovať. 
+		
+	\section{Štatistika}
+		Ako zdroj dát pre generovanie grafov firewall používa čítače, ktoré sú pridané priamo v \texttt{nftables}
+		konfigurácií. Používa aj niektoré systémové nástroje, ktoré túto štatistiku zbierajú. Tieto dáta sa 
+		načítajú a spracujú pre každú požiadavku na webový server, ktorý vygeneruje príslušné \texttt{HighCharts}
+		grafy.

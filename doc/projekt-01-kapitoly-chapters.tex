@@ -49,5 +49,34 @@ Náhrada \emph{iptables} vo forme \emph{nftables} je podsystém v Linuxovom jadr
 \input{app-design}
 
 \chapter{Záver}
-TODO
+
+	Návrh aplikácie pre konfiguráciu firewall v systéme Linux je vyriešený a vďaka virtuálnemu prostrediu je schopná
+	fungovať na rôznych Linuxových distribúciach. 
+	
+	Prototyp programu a webového rozhrania obhájil svoju vhodnosť ako riešenie daného problému a preto ostaneme pri 
+	danom návrhu riešenia firewall aplikácie.
+	
+	V ďalšom kroku je nutné odladiť grafické rozhranie a overiť dáta z vygenerovaných grafov, či zodpovedajú a ukazujú
+	správne údaje zo sond (čítače, \texttt{ntf} pravidlá).
+
+	\section{Rozdelenie práce}
+	
+	\begin{itemize}
+		\item Bc. Jozef Urbanovský <xurban66>
+		\begin{itemize}
+			\item firewall
+			\item iptables
+			\item nftables
+		\end{itemize}
+	
+		\item Bc. Adrián Tomašov <xtomas32>
+		\begin{itemize}
+			\item Django
+			\item HighCharts
+			\item nftables sytntax a API
+		\end{itemize}
+		
+	\end{itemize}
+	
+
 %=========================================================================
