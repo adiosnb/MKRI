@@ -24,12 +24,12 @@
 <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
-    <div class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">MKRI Firewall</div>
+    <div class="bg-dark border-right border-dark" id="sidebar-wrapper">
+        <div class="sidebar-heading text-light">MKRI Firewall</div>
         <div class="list-group list-group-flush">
-            <a href="{% url 'fw-home' %}" class="list-group-item list-group-item-action bg-light">Home</a>
-            <a href="{% url 'fw-rules' %}" class="list-group-item list-group-item-action bg-light">Rules</a>
-            <a href="{% url 'fw-stats' %}" class="list-group-item list-group-item-action bg-light">Statistics</a>
+            <a href="{% url 'fw-home' %}"  class="list-group-item list-group-item-action text-light bg-dark">Home</a>
+            <a href="{% url 'fw-rules' %}" class="list-group-item list-group-item-action text-light bg-dark">Rules</a>
+            <a href="{% url 'fw-stats' %}" class="list-group-item list-group-item-action text-light bg-dark">Statistics</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -37,7 +37,7 @@
     <!-- Page Content -->
     <div id="page-content-wrapper">
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
             <button class="btn btn-primary" id="menu-toggle">Menu</button>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
