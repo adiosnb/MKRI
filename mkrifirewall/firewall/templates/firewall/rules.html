@@ -6,12 +6,14 @@
 
     <p>Alter the configuration according to yours needs</p>
     <form action="" method="post">
-        {%  csrf_token %}
+        {% csrf_token %}
         <div class="form-group">
-                {{ form }}
-            <input class="btn btn-success" type="submit" value="Submit configuration">
-            <a href="{% url 'fw-rules' %}" class="btn btn-warning">Reset</a>
-            <a href="{% url 'fw-rules' %}" class="btn btn-danger">Clear</a>
+            {{ form }}
+            <div class="w-75 mt-2">
+                <input class="btn btn-success mr-1" type="submit" value="Submit configuration">
+                <a href="{% url 'fw-rules' %}" class="btn btn-warning mr-1">Reset</a>
+                <a href="{% url 'fw-rules' %}" class="btn btn-danger">Clear</a>
+            </div>
         </div>
     </form>
 
