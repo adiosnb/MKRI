@@ -1,14 +1,23 @@
 {% extends "firewall/base.html" %}
 {% block body %}
     <div class="align-content-center">
-    <form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
 
-        <h2> Username : {{ form.username }} </h2>
-        <h2> Password:  {{ form.password }} </h2>
+            {{ form.errors }}
 
-        <p><input type="submit" value="login">  </p>
+            {% for field in form %}
+                <div class="form-group row">
+                    <label for="{{ field.id_for_label }}" class="col-sm-2 col-form-label">{{ field.label }}</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="{{ field.id_for_label }}"
+                               placeholder="{{ field.label }}" name="{{ field.name }}">
+                    </div>
+                </div>
+            {% endfor %}
 
-    </form>
+            <input class="btn btn-outline-primary" type="submit" value="Login">
+
+        </form>
     </div>
 {% endblock body %}
