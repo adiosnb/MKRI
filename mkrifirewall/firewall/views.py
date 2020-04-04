@@ -1,5 +1,7 @@
+import json
 from django.shortcuts import render
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 from firewall.forms import NFTablesConfigForm
@@ -13,9 +15,10 @@ def home(request):
 
 
 def stats(request):
-    return render(request, 'firewall/stats.html')
+    return render(request, 'firewall/stats.html', {'chart1': process_nftables_data(NFTables.get_stats())})
 
 
+# @login_required(login_url='/account/login/')
 def rules(request):
     print(request)
     if request.method == 'POST':
@@ -30,3 +33,7 @@ def rules(request):
     else:  # == GET
         form = NFTablesConfigForm()
     return render(request, 'firewall/rules.html', {'form': form})
+
+
+def process_nftables_data(data):
+    return data
