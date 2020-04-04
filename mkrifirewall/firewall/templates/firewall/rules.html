@@ -5,11 +5,13 @@
     </h1>
 
     <p>Alter the configuration according to yours needs</p>
-    <form>
+    <form action="" method="post">
+        {%  csrf_token %}
         <div class="form-group">
-{#            <label for="exampleFormControlTextarea1">Current Configuration</label>#}
-
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="30">{{ conf }}</textarea>
+                {{ form }}
+            <input class="btn btn-success" type="submit" value="Submit configuration">
+            <a href="{% url 'fw-rules' %}" class="btn btn-warning">Reset</a>
+            <a href="{% url 'fw-rules' %}" class="btn btn-danger">Clear</a>
         </div>
     </form>
 
