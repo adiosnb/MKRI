@@ -1,7 +1,16 @@
 {% extends "firewall/base.html" %}
 {% block body %}
-<h1>
-	My Super rules
-</h1>
-<p> jebo 
+    <h1>
+        Firewall Configuration
+    </h1>
+
+    <p>Alter the configuration according to yours needs</p>
+    <form>
+        <div class="form-group">
+{#            <label for="exampleFormControlTextarea1">Current Configuration</label>#}
+
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="30">{{ conf }}</textarea>
+        </div>
+    </form>
+
 {% endblock body %}
