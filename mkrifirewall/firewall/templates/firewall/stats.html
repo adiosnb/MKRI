@@ -4,22 +4,31 @@
         Statistics of incoming firewall traffic
     </h1>
 
-    <figure class="highcharts-figure">
-        <div id="chart1"></div>
-        <p class="highcharts-description">
-            Pie charts are very popular for showing a compact overview of a
-            composition or comparison. While they can be harder to read than
-            column charts, they remain a popular choice for small datasets.
-        </p>
-    </figure>
+    <div class="container">
 
-    <figure class="highcharts-figure">
-        <div id="live_chart"></div>
-        <p class="highcharts-description">
-            Live traffic types passing through the firewall.
-        </p>
-    </figure>
 
+        <div class="row">
+            <div class="col">
+                <figure class="highcharts-figure">
+                    <div id="chart1"></div>
+                </figure>
+            </div>
+
+            <div class="col">
+                <figure class="highcharts-figure">
+                    <div id="chart2"></div>
+                </figure>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col">
+                <figure class="highcharts-figure">
+                    <div id="live_chart"></div>
+                </figure>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock body %}
@@ -44,6 +53,51 @@
             },
             title: {
                 text: 'Traffic types passing through the firewall'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<br>{point.name}</br>: {point.percentage:.1f} %'
+                    },
+                    showInLegend: true,
+                }
+            },
+            series: [{
+                name: 'Traffic type',
+                colorByPoint: true,
+                data: [
+                    {% for k,v in chart1.items %}
+                        {
+                            name: '{{ k|title }}',
+                            y: {{ v }}
+                        },
+                    {% endfor %}
+                ]
+            }]
+        });
+    </script>
+
+    <script>
+        Highcharts.chart('chart2', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'TODO'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
