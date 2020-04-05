@@ -78,6 +78,20 @@
 
     {# live chart definition #}
     <script>
+        var init_series = function (series_length) {
+            // generate an array of random data
+            let data = [],
+                time = (new Date()).getTime();
+
+            for (let i = -1 * series_length; i <= 0; i += 1) {
+                data.push({
+                    x: time + i * 1000,
+                    y: 0
+                });
+            }
+            return data;
+        };
+
         Highcharts.chart('live_chart', {
             chart: {
                 type: 'spline',
@@ -89,11 +103,23 @@
                         let all_series = this.series;
                         setInterval(function () {
                             $.get("{% url 'ajax/stats' %}", function (data) {
-                                let i  = 0;
+
+                                {# find response lenght #}
+                                let length = 0;
+                                for (let data_key in data) {
+                                    length += 1;
+                                }
+
+                                let i = 0;
                                 let x = (new Date()).getTime();
+
                                 for (let data_key in data) {
                                     let y = data[data_key];
-                                    all_series[i].addPoint([x, y], true, true);
+                                    if (i < length - 1) {
+                                        all_series[i].addPoint([x, y], false, true);
+                                    } else {
+                                        all_series[i].addPoint([x, y], true, true);
+                                    }
                                     i += 1;
                                 }
                             });
@@ -107,7 +133,7 @@
             },
 
             title: {
-                text: 'Live random data'
+                text: 'Live firewall crossing traffic'
             },
 
             accessibility: {
@@ -125,7 +151,7 @@
 
             xAxis: {
                 type: 'datetime',
-                tickPixelInterval: 1500,
+                tickPixelInterval: 150,
             },
 
             yAxis: {
@@ -141,38 +167,24 @@
 
             tooltip: {
                 headerFormat: '<b>{series.name}</b><br/>',
-                pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
+                pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y} packets'
             },
 
             legend: {
-                enabled: false
+                enabled: true
             },
 
             exporting: {
-                enabled: false
+                enabled: true
             },
             {# init with zeros #}
             series: [
                 {% for key in chart1.keys %}
                     {
                         name: '{{ key|title }}',
-                        data: (function () {
-                            // generate an array of random data
-                            var data = [],
-                                time = (new Date()).getTime(),
-                                i;
-
-                            for (i = -19; i <= 0; i += 1) {
-                                data.push({
-                                    x: time + i * 1000,
-                                    y: 0
-                                });
-                            }
-                            return data;
-                        }())
+                        data: init_series(30),
                     },
                 {% endfor %}
-
             ]
         });
     </script>
