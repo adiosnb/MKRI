@@ -26,10 +26,13 @@
     <!-- Sidebar -->
     <div class="bg-dark border-right border-dark" id="sidebar-wrapper">
         <div class="sidebar-heading text-light">MKRI Firewall</div>
-        <div class="list-group list-group-flush">
-            <a href="{% url 'fw-home' %}"  class="list-group-item list-group-item-action text-light bg-dark">Home</a>
-            <a href="{% url 'fw-rules' %}" class="list-group-item list-group-item-action text-light bg-dark">Rules</a>
-            <a href="{% url 'fw-stats' %}" class="list-group-item list-group-item-action text-light bg-dark">Statistics</a>
+        <div class="list-group list-group-flush m-1">
+            {% url 'fw-home' as  home_url %}
+            {% url 'fw-rules' as rules_url %}
+            {% url 'fw-stats' as stats_url %}
+            <a href="{% url 'fw-home' %}"  class="list-group-item list-group-item-action {% ifequal request.path home_url  %}bg-warning{% else %}text-light bg-dark{% endifequal %}">Home</a>
+            <a href="{% url 'fw-rules' %}" class="list-group-item list-group-item-action {% ifequal request.path rules_url %}bg-warning{% else %}text-light bg-dark{% endifequal %}">Rules</a>
+            <a href="{% url 'fw-stats' %}" class="list-group-item list-group-item-action {% ifequal request.path stats_url %}bg-warning{% else %}text-light bg-dark{% endifequal %}">Statistics</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
