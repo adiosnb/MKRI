@@ -38,13 +38,6 @@
     <div id="page-content-wrapper">
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
-            <button class="btn btn-primary" id="menu-toggle">Menu</button>
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item">
@@ -87,11 +80,6 @@
             {% endif %}
 
             {% block body %}{% endblock body %}
-            {% if user.is_authenticated %}
-                {% block unlogged %}{% endblock unlogged %}
-            {% else %}
-                {% block logged %}{% endblock logged %}
-            {% endif %}
         </div>
     </div>
     <!-- /#page-content-wrapper -->
@@ -102,14 +90,6 @@
 <!-- Bootstrap core JavaScript -->
 <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-<!-- Menu Toggle Script -->
-<script>
-    $("#menu-toggle").click(function (e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-</script>
 
 {% block javascript %}
 {% endblock javascript %}
