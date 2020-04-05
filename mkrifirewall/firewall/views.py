@@ -2,20 +2,32 @@ import json
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from firewall.forms import NFTablesConfigForm
 from firewall.sys_utils.nftables import NFTables
 
-
 # Create your views here.
+old_data = None
+
 
 def home(request):
     return render(request, 'firewall/home.html')
 
 
 def stats(request):
-    return render(request, 'firewall/stats.html', {'chart1': process_nftables_data(NFTables.get_stats())})
+    global old_data
+    old_data = process_nftables_data(NFTables.get_stats())
+    return render(request, 'firewall/stats.html', {'chart1': old_data})
+
+
+def get_traffic_stats(request):
+    global old_data
+    data = NFTables.get_stats()
+    data = process_nftables_data(data)
+    data_diff = {k: v - old_data[k] for k, v in data.items()}
+    old_data = data
+    return JsonResponse(data_diff, status=200)
 
 
 # @login_required(login_url='/account/login/')
