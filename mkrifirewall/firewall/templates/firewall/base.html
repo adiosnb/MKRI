@@ -30,9 +30,12 @@
             {% url 'fw-home' as  home_url %}
             {% url 'fw-rules' as rules_url %}
             {% url 'fw-stats' as stats_url %}
-            <a href="{% url 'fw-home' %}"  class="list-group-item list-group-item-action {% ifequal request.path home_url  %}bg-warning{% else %}text-light bg-dark{% endifequal %}">Home</a>
-            <a href="{% url 'fw-rules' %}" class="list-group-item list-group-item-action {% ifequal request.path rules_url %}bg-warning{% else %}text-light bg-dark{% endifequal %}">Rules</a>
-            <a href="{% url 'fw-stats' %}" class="list-group-item list-group-item-action {% ifequal request.path stats_url %}bg-warning{% else %}text-light bg-dark{% endifequal %}">Statistics</a>
+            <a href="{% url 'fw-home' %}"
+               class="list-group-item list-group-item-action {% ifequal request.path home_url %}bg-warning{% else %}text-light bg-dark{% endifequal %}">Home</a>
+            <a href="{% url 'fw-rules' %}"
+               class="list-group-item list-group-item-action {% ifequal request.path rules_url %}bg-warning{% else %}text-light bg-dark{% endifequal %}">Rules</a>
+            <a href="{% url 'fw-stats' %}"
+               class="list-group-item list-group-item-action {% ifequal request.path stats_url %}bg-warning{% else %}text-light bg-dark{% endifequal %}">Statistics</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -53,13 +56,12 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
+                            Administration
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <a class="dropdown-item" href="{% url 'admin:index' %}">Site Admin Page</a>
                         </div>
                     </li>
                 </ul>
