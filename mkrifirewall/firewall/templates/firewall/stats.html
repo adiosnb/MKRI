@@ -79,10 +79,10 @@
                 data: [
                     {% for k,v in chart1.items %}
                         {
-                            {% if k == chart1_max_key %}
+                            {% ifequal k  chart1_max_key %}
                                 sliced: true,
                                 selected: true,
-                            {% endif %}
+                            {% endifequal %}
                             name: '{{ k|title }}',
                             y: {{ v }},
                         },
