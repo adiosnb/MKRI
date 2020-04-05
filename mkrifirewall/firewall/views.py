@@ -18,7 +18,15 @@ def home(request):
 def stats(request):
     global old_data
     old_data = process_nftables_data(NFTables.get_stats())
-    return render(request, 'firewall/stats.html', {'chart1': old_data})
+    chart1_max = next(iter(old_data.keys()))
+    for key, val in old_data.items():
+        if old_data[chart1_max] < val:
+            chart1_max = key
+    context = {
+        'chart1': old_data,
+        'chart1_max_key': chart1_max
+    }
+    return render(request, 'firewall/stats.html', context)
 
 
 def get_traffic_stats(request):
