@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 
 from firewall.forms import NFTablesConfigForm
-from firewall.sys_utils.nftables import NFTables
+from firewall.sys_utils.nftables import NFTables, NFTablesException
 
 # Create your views here.
 old_data = None
@@ -40,18 +40,32 @@ def get_traffic_stats(request):
 
 # @login_required(login_url='/account/login/')
 def rules(request):
-    print(request)
     if request.method == 'POST':
         form = NFTablesConfigForm(request.POST)
+        form.is_valid()
+        conf = form.cleaned_data['nft_config']
         try:
-            NFTables.apply_current_cong(form['nft_config'])
-        except Exception as e:
+            NFTables.apply_current_conf(conf)
+        except NFTablesException as e:
             messages.warning(request, "There is an error in your configuration!")
+        except Exception as e:
+            messages.warning(request, "Unknown error occurs")
+            messages.warning(request, e)
         else:
             messages.success(request, "Configuration successfully applied.")
 
     else:  # == GET
-        form = NFTablesConfigForm()
+        curr_conf = ""
+        try:
+            curr_conf = NFTables.get_current_configuration()
+        except NFTablesException as e:
+            messages.warning(request, "There is an error in your configuration!")
+            messages.warning(request, e)
+        except FileNotFoundError:
+            messages.warning(request, 'NFT program is not installed')
+
+        form = NFTablesConfigForm(initial={'nft_config': curr_conf})
+
     return render(request, 'firewall/rules.html', {'form': form})
 
 
