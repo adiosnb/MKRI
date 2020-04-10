@@ -1,0 +1,34 @@
+#!/usr/sbin/nft -f
+
+flush ruleset
+
+table inet filter {
+	chain input {
+		type filter hook input priority 0; policy accept;
+		jump encryption
+	}
+
+	chain forward {
+		type filter hook forward priority 0; policy accept;
+	}
+
+	chain output {
+		type filter hook output priority 0; policy accept;
+		jump encryption
+	}
+
+	chain encryption {
+		tcp dport https counter accept
+		tcp dport ssh counter accept
+		ip protocol ah counter accept
+		meta l4proto ah counter accept
+		meta l4proto ah counter accept
+		ip protocol esp counter accept
+		ip protocol esp counter accept
+		meta l4proto esp counter accept
+		ip protocol gre counter accept
+		counter accept
+	}
+
+
+}
