@@ -13,17 +13,9 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "shell", inline: <<-SHELL
-    sudo su
-    # dnf -y update
-    dnf -y install python3-pip make
-    dnf -y install nftables
-    pip3 install pip pipenv -U
     cd /vagrant
-    python3 -m pipenv install
-    cp /vagrant/mkri.service /etc/systemd/system/
-    systemctl enable mkri.service
-    systemctl start mkri.service
-    exit
+    sudo dnf -y install make
+    sudo make deploy
   SHELL
-    # python3 -m pipenv run python mkrifirewall/manage.py runserver
+
 end
