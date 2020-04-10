@@ -1,4 +1,5 @@
 from firewall.sys_utils.shell import run_command
+from random import randint
 
 
 class NFTablesException(Exception): pass
@@ -7,6 +8,13 @@ class NFTablesException(Exception): pass
 class NFTables:
     BACKUP_CONF_NAME = 'backup_conf.nft'
     NEW_CONF = 'new_conf.nft'
+
+    DUMMY = {
+        'tls1.1': randint(0, 1200),
+        'ssl': randint(0, 100),
+        'others': randint(0, 900),
+        'ipsec': randint(0, 1500),
+    }
 
     @classmethod
     def get_current_configuration(cls) -> str:
@@ -42,4 +50,10 @@ class NFTables:
 
     @classmethod
     def get_stats(cls):
-        raise NotImplementedError
+        return cls.get_dummy_stats()
+
+    @classmethod
+    def get_dummy_stats(cls):
+        for i, key in enumerate(cls.DUMMY.keys()):
+            cls.DUMMY[key] += randint(0, 100 + i*20)
+        return dict(cls.DUMMY)
