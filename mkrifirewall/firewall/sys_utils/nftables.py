@@ -50,6 +50,19 @@ class NFTables:
 
     @classmethod
     def get_stats(cls):
+        # TODO is it ok to have 2 dicts instead of one merged?
+        accepted = {}
+        denied = {}
+
+        with open('tmp') as f:
+            for line in f:
+                if "packets" in line:
+                    line_array = line.split()
+                    key = line_array[2]
+                    if "accept" in line:
+                        accepted[key] = line_array[5]
+                    else:
+                        denied[key] = line_array[5]
         return cls.get_dummy_stats()
 
     @classmethod
