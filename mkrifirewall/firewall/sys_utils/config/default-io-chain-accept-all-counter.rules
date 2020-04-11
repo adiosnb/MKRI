@@ -22,7 +22,6 @@ table inet filter {
 		tcp dport ssh counter accept
 		ip protocol ah counter accept
 		meta l4proto ah counter accept
-		meta l4proto ah counter accept
 		ip protocol esp counter accept
 		ip protocol esp counter accept
 		meta l4proto esp counter accept
