@@ -11,13 +11,23 @@ Vagrant.configure("2") do |config|
     lv.cpus = "2"
   end
 
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo dnf -y install libreswan
+    sudo dnf -y install iperf3 vim
+    iperf3 -sD
+    iperf3 -sD -p 5202
+
+  SHELL
+
   config.vm.define "generator" do |gen|
+    gen.vm.hostname = "generator"
     gen.vm.provision "shell", inline: <<-SHELL
       dnf -y install libreswan
     SHELL
   end
 
   config.vm.define "firewall" do |fw|
+    fw.vm.hostname = "firewall"
     fw.vm.provision "shell", inline: <<-SHELL
       cd /vagrant
       sudo dnf -y install make
