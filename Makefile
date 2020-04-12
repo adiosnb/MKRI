@@ -38,4 +38,5 @@ deploy:
 	cp mkri.service /etc/systemd/system/
 	systemctl enable mkri.service
 	systemctl start mkri.service
+	nft -f mkrifirewall/firewall/sys_utils/config/default-io-chain-accept-all-counter.rules
 
