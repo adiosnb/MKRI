@@ -70,4 +70,4 @@ def rules(request):
 
 
 def process_nftables_data(data):
-    return data
+    return data[0]
