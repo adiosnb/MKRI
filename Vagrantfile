@@ -4,7 +4,6 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "centos/8"
 
-  config.vm.network "forwarded_port", guest: 8000, host: 8000
 
   config.vm.provider "libvirt" do |lv|
     lv.memory = "2048"
@@ -26,15 +25,18 @@ Vagrant.configure("2") do |config|
       systemctl enable generator
       systemctl start generator
       ipsec auto --up tun1
+      ip addr add 10.0.0.2/24 dev eth0
     SHELL
   end
 
   config.vm.define "firewall" do |fw|
     fw.vm.hostname = "firewall"
+    fw.vm.network "forwarded_port", guest: 80, host: 8000
     fw.vm.provision "shell", inline: <<-SHELL
       cd /vagrant
       sudo dnf -y install make
       sudo make deploy
+      ip addr add 10.0.0.1/24 dev eth0
     SHELL
 
   end
