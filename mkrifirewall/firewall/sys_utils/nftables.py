@@ -34,7 +34,7 @@ class NFTables:
     @classmethod
     def _apply_conf(cls, conf):
         with open(cls.NEW_CONF, 'w') as f:
-            f.write(conf)
+            f.write(conf.replace('\r\n', '\n'))
         _, ret_code = run_command(f'nft -f {cls.NEW_CONF}')
         if ret_code:
             raise NFTablesException
