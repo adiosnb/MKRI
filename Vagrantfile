@@ -15,6 +15,9 @@ Vagrant.configure("2") do |config|
     iperf3 -sD
     iperf3 -sD -p 5202
     sudo sh /vagrant/add_tunnel.sh
+    sudo mkdir /root/.ssh
+    sudo cp /vagrant/ssh /root/.ssh/id_rsa
+    sudo cat /vagrant/ssh.pub >> /root/.ssh/authorized_keys
   SHELL
 
   config.vm.define "generator" do |gen|

@@ -64,9 +64,9 @@ class NFTables:
                 line_array = line.split()
                 if line_array[0] == "counter":
                     if "accept" in line:
-                        accepted["others"] = int(line_array[4])
+                        accepted["all"] = int(line_array[4])
                     else:
-                        denied["others"] = int(line_array[4])
+                        denied["all"] = int(line_array[4])
                     continue
                 key = line_array[2]
                 if key in accepted.keys():
