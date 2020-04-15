@@ -18,6 +18,7 @@ class NFTables:
 
     @classmethod
     def get_current_configuration(cls) -> str:
+        """ Returns current nft configuration """
         conf, ret_code = run_command('nft list ruleset')
         if ret_code:
             raise NFTablesException("Error during configuration access")
@@ -25,14 +26,17 @@ class NFTables:
 
     @classmethod
     def _backup_conf(cls):
+        """ Backups current nft configuration to a file """
         run_command(f'nft list ruleset > {cls.BACKUP_CONF_NAME}')
 
     @classmethod
     def _restore_backup(cls):
+        """ Restores previous nft configuration from a file """
         run_command(f'nft -f {cls.BACKUP_CONF_NAME}')
 
     @classmethod
     def _apply_conf(cls, conf):
+        """ Applies nft configuration submitted from webUI """
         with open(cls.NEW_CONF, 'w') as f:
             f.write(conf.replace('\r\n', '\n'))
         _, ret_code = run_command(f'nft -f {cls.NEW_CONF}')
@@ -41,6 +45,7 @@ class NFTables:
 
     @classmethod
     def apply_current_conf(cls, conf: str):
+        """ Handles application of submitted nft configuration """
         cls._backup_conf()
         try:
             cls._apply_conf(conf)
@@ -50,6 +55,7 @@ class NFTables:
 
     @classmethod
     def get_stats(cls):
+        """ Returns accepted and denied dictionaries containing statistics of current nft configuration """
         accepted = {}
         denied = {}
 
@@ -74,9 +80,3 @@ class NFTables:
                     denied[key] = int(line_array[7])
 
         return accepted, denied
-
-    @classmethod
-    def get_dummy_stats(cls):
-        for i, key in enumerate(cls.DUMMY.keys()):
-            cls.DUMMY[key] += randint(0, 100 + i * 20)
-        return dict(cls.DUMMY)

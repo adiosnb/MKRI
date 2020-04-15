@@ -53,30 +53,28 @@ Náhrada \emph{iptables} vo forme \emph{nftables} je podsystém v Linuxovom jadr
 
 \chapter*{Záver}
 
-	Návrh aplikácie pre konfiguráciu firewall v systéme Linux je vyriešený a vďaka virtuálnemu prostrediu je schopná
-	fungovať na rôznych Linuxových distribúciach. 
-	
-	Prototyp programu a webového rozhrania obhájil svoju vhodnosť ako riešenie daného problému a preto ostaneme pri 
-	danom návrhu riešenia firewall aplikácie.
-	
-	V ďalšom kroku je nutné odladiť grafické rozhranie a overiť dáta z vygenerovaných grafov, či zodpovedajú a ukazujú
-	správne údaje zo sond (čítače, \texttt{ntf} pravidlá).
+Návrh aplikácie pre konfiguráciu firewallu a jej implementácia v systéme Linux je vyriešená a vďaka virtuálnemu prostrediu je schopná fungovať na rôznych Linuxových distribúciach. 
+
+Aplikácia bola naimplementovaná za pomoci userspace programov Linuxového systému za použitia webové rozhrania na ovládanie.
+Grafické webové rozhranie spĺňa zadanie pre konfiguráciu firewallu a filtráciu zašifrovanej prevádzky. Umožnuje užívateľovi ľubovoľne konfigurovať Linuxový firewall vo forme frameworku novšej časti \emph{Netfilteru} - \emph{nftables}. Aplikácia v reálnom čase sleduje prevádzku na sieti a dynamicky zobrazuje tieto údaje do grafu. 
 
 	\section{Rozdelenie práce}
 	
 	\begin{itemize}
 		\item Bc. Jozef Urbanovský <xurban66>
 		\begin{itemize}
-			\item firewall
-			\item iptables
-			\item nftables
+			\item Frontend - Bootstrap, HTML
+			\item Backend - firewall, iptables, nftables
+			\item Automatizácia - Shell skripty
+			\item Dokumentácia
 		\end{itemize}
 	
 		\item Bc. Adrián Tomašov <xtomas32>
 		\begin{itemize}
-			\item Django
-			\item HighCharts
-			\item nftables syntax a API
+			\item Frontend - Django, HighCharts, Bootstrap, HTML
+			\item Backend - systémové programy, nftables
+			\item Automatizácia - Vagrant, Shell skripty
+			\item Dokumentácia
 		\end{itemize}
 		
 	\end{itemize}
