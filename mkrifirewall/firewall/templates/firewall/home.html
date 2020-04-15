@@ -1,7 +1,92 @@
 {% extends "firewall/base.html" %}
 {% block body %}
-<h1>
-	My Super Home
-</h1>
-<p> jebo 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron">
+                <h2>
+                    nft based firewall for MKRI
+                </h2>
+                <div class="col-md-8">
+                    <p>
+                        Firewall application is implemented as a web based interface to nftables framework, which is a
+                        part
+                        of Netfilter subsystem.
+                    </p>
+                    <p>
+                        Primary programming language used in backend is Python and Shell,
+                        where frontend is implemented with Django, HighCharts, Bootstrap, Ajax and similar frameworks.
+                    </p>
+                    <p>
+                        Django is used to display queries from the nft userspace utility, that controls Netfilter's
+						packet filtering based on newer implementation of firewall in form of nftables.
+                    </p>
+                    <p>Due to keeping the test environment
+                        simple
+                        enough, firewall is implemented in netfilter's input and output hooks, instead of forward one.
+                        This alteration allows user to observe incoming and outgoing traffic from network endpoint,
+                        instead
+                        of a need to create real network with typically transparent forwarding firewall.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>
+                Firewall
+            </h2>
+            <p>
+                User has full control over the nft configuration, ranging from tables to specific rules.
+ 				Application offers some preconfigured firewall rules to include statistics for
+				well-known encrypted traffic.
+            <p><a href="https://wiki.nftables.org/">nft wiki</a></p>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h2>
+                Test environment
+            </h2>
+            <p>
+				<b>Vagrant</b> is the chosen tool to create replicable virtualized environment for the ease of testing and
+				presenting the application. It provisions libvirt based virtual machine with specified usecase, either
+				generator or firewall itself.
+            </p>
+			<p>
+				<b>Generator</b> VM is used to generate traffic with iperf3 framework, to verify functionality of application.
+				It is connected directly to the firewall VM, where one endpoint of IPsec tunnel is present as well.
+			</p>
+			<p>
+				<b>Firewall</b> VM instance is running the nft ruleset itself, which is doing the actual traffic filtering.
+				Other endpoint of IPsec tunnel is located here, along with the webserver instance generated from Django.
+			</p>
+        </div>
+        <div class="col-md-4">
+            <h2>
+                Authors
+            </h2>
+            <ul class="list-unstyled">
+                <li><b>Adrián Tomašov</b>
+                    <ul>
+                        <li>Django</li>
+                        <li>HighCharts</li>
+                        <li>Bootstrap</li>
+                        <li>nftables</li>
+                        <li>documentation</li>
+                    </ul>
+                </li>
+                <li><b>Jozef Urbanovský</b>
+                    <ul>
+                        <li>Bootstrap</li>
+                        <li>nftables</li>
+                        <li>iptables</li>
+                        <li>firewall</li>
+                        <li>documentation</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock body %}
