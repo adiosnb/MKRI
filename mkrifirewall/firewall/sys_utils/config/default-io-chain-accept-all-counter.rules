@@ -23,10 +23,9 @@ table inet filter {
 		ip protocol ah counter accept
 		meta l4proto ah counter accept
 		ip protocol esp counter accept
-		ip protocol esp counter accept
 		meta l4proto esp counter accept
 		ip protocol gre counter accept
-		counter accept
+		counter accept comment "default accept any"
 	}
 
 

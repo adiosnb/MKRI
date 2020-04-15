@@ -50,23 +50,28 @@ class NFTables:
 
     @classmethod
     def get_stats(cls):
-        # TODO is it ok to have 2 dicts instead of one merged?
         accepted = {}
         denied = {}
 
-        with open('tmp') as f:
-            for line in f:
-                if "packets" in line:
-                    line_array = line.split()
-                    key = line_array[2]
-                    if "accept" in line:
-                        accepted[key] = line_array[5]
-                    else:
-                        denied[key] = line_array[5]
-        return cls.get_dummy_stats()
+        for line in cls.get_current_configuration().splitlines():
+            if "default" in line:
+                line_array = line.split()
+                if "accept" in line:
+                    accepted["others"] = line_array[4]
+                else:
+                    denied["others"] = line_array[4]
+            elif "packets" in line:
+                line_array = line.split()
+                key = line_array[2]
+                if "accept" in line:
+                    accepted[key] = line_array[7]
+                else:
+                    denied[key] = line_array[7]
+
+        return accepted, denied
 
     @classmethod
     def get_dummy_stats(cls):
         for i, key in enumerate(cls.DUMMY.keys()):
-            cls.DUMMY[key] += randint(0, 100 + i*20)
+            cls.DUMMY[key] += randint(0, 100 + i * 20)
         return dict(cls.DUMMY)
