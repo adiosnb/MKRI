@@ -68,7 +68,11 @@ class NFTables:
                 else:
                     denied[key] = line_array[7]
 
-        return accepted, denied
+        return cls._convert_str_to_int(accepted), cls._convert_str_to_int(denied)
+
+    @staticmethod
+    def _convert_str_to_int(data: dict):
+        return {k: int(v) for k, v in data.items()}
 
     @classmethod
     def get_dummy_stats(cls):
