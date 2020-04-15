@@ -18,12 +18,13 @@ def home(request):
 def stats(request):
     global old_data
     old_data = process_nftables_data(NFTables.get_stats())
-    chart1_max = next(iter(old_data.keys()))
-    for key, val in old_data.items():
-        if old_data[chart1_max] < val:
+    accepted = old_data[0]
+    chart1_max = next(iter(accepted.keys()))
+    for key, val in accepted.items():
+        if accepted[chart1_max] < val:
             chart1_max = key
     context = {
-        'chart1': old_data,
+        'chart1': accepted,
         'chart1_max_key': chart1_max
     }
     return render(request, 'firewall/stats.html', context)
@@ -31,9 +32,8 @@ def stats(request):
 
 def get_traffic_stats(request):
     global old_data
-    data = NFTables.get_stats()
-    data = process_nftables_data(data)
-    data_diff = {k: v - old_data[k] for k, v in data.items()}
+    data = process_nftables_data(NFTables.get_stats())
+    data_diff = {k: v - old_data[0][k] for k, v in data[0].items()}
     old_data = data
     return JsonResponse(data_diff, status=200)
 
@@ -70,4 +70,8 @@ def rules(request):
 
 
 def process_nftables_data(data):
-    return data[0]
+    for series in data:
+        if 'all' in series.keys():
+            summed = series.pop('all')
+            series['others'] = summed - sum(series.values())
+    return data
