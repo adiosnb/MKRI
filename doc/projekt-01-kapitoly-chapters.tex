@@ -49,7 +49,9 @@ Náhrada \emph{iptables} vo forme \emph{nftables} je podsystém v Linuxovom jadr
 \input{app-design}
 
 \chapter{Implementácia aplikácie}
+Realizovaná aplikácia implementačne zodpovedá jej predloženému návrhu. Grafické rozhranie vo forme webovej aplikácie, ktoré beží ako služba na serveri, je využité na reprezentáciu dát filtrovanej prevázdky a nastavenie samotných pravidiel firewallu.
 
+Firewall je naimplementovaný pomocou podsystému jadra známeho pod menom \emph{Netfilter}. Jeho súčasťou je aj nová implementácia filtrovania prevádzky vo forme \emph{nftables}, ktoré sú ovládané cez userspace program \texttt{nft}. Webové rozhranie ponúka užívateľovi možnosť upravovať konfiguračný súbor pravidiel pre firewall, zálohovať ho a opätovne nahrať. 
 
 \chapter*{Záver}
 
