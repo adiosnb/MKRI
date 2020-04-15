@@ -54,25 +54,26 @@ class NFTables:
         denied = {}
 
         for line in cls.get_current_configuration().splitlines():
-            if "default" in line:
+            if "packets" in line:
                 line_array = line.split()
-                if "accept" in line:
-                    accepted["others"] = line_array[4]
-                else:
-                    denied["others"] = line_array[4]
-            elif "packets" in line:
-                line_array = line.split()
+                if line_array[0] == "counter":
+                    if "accept" in line:
+                        accepted["others"] = int(line_array[4])
+                    else:
+                        denied["others"] = int(line_array[4])
+                    continue
                 key = line_array[2]
+                if key in accepted.keys():
+                    accepted[key] += int(line_array[7])
+                    continue
+                elif key in denied.keys():
+                    denied[key] += int(line_array[7])
                 if "accept" in line:
-                    accepted[key] = line_array[7]
+                    accepted[key] = int(line_array[7])
                 else:
-                    denied[key] = line_array[7]
+                    denied[key] = int(line_array[7])
 
-        return cls._convert_str_to_int(accepted), cls._convert_str_to_int(denied)
-
-    @staticmethod
-    def _convert_str_to_int(data: dict):
-        return {k: int(v) for k, v in data.items()}
+        return accepted, denied
 
     @classmethod
     def get_dummy_stats(cls):
