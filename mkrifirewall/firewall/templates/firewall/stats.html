@@ -71,7 +71,7 @@
                         format: '<br>{point.name}</br>: {point.percentage:.1f} %'
                     },
                     showInLegend: true,
-                }
+                },
             },
             series: [{
                 name: 'Traffic type',
@@ -101,7 +101,7 @@
                 type: 'pie'
             },
             title: {
-                text: 'TODO'
+                text: 'Traffic dropped by the firewall'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -118,15 +118,20 @@
                     dataLabels: {
                         enabled: true,
                         format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                    }
-                }
+                    },
+                    showInLegend: true,
+                },
             },
             series: [{
                 name: 'Traffic type',
                 colorByPoint: true,
                 data: [
-                    {% for k,v in chart1.items %}
+                    {% for k,v in chart2.items %}
                         {
+                            {% ifequal k  chart2_max_key %}
+                                sliced: true,
+                                selected: true,
+                            {% endifequal %}
                             name: '{{ k|title }}',
                             y: {{ v }}
                         },

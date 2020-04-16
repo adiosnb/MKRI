@@ -1,5 +1,6 @@
 from firewall.sys_utils.shell import run_command
 from random import randint
+from collections import defaultdict
 
 
 class NFTablesException(Exception): pass
@@ -29,6 +30,11 @@ class NFTables:
         """ Backups current nft configuration to a file """
         run_command(f'nft list ruleset > {cls.BACKUP_CONF_NAME}')
 
+    @staticmethod
+    def _delete_rules():
+        """ Delete all rules from nft configuration """
+        run_command('nft flush ruleset')
+
     @classmethod
     def _restore_backup(cls):
         """ Restores previous nft configuration from a file """
@@ -47,6 +53,7 @@ class NFTables:
     def apply_current_conf(cls, conf: str):
         """ Handles application of submitted nft configuration """
         cls._backup_conf()
+        cls._delete_rules()
         try:
             cls._apply_conf(conf)
         except Exception as e:
@@ -55,28 +62,23 @@ class NFTables:
 
     @classmethod
     def get_stats(cls):
-        """ Returns accepted and dropped dictionaries containing statistics of current nft configuration """
-        accepted = {}
-        dropped = {}
+        """ Returns accepted and denied dictionaries containing statistics of current nft configuration """
+        accepted = defaultdict(int)
+        denied = defaultdict(int)
 
         for line in cls.get_current_configuration().splitlines():
             if "packets" in line:
                 line_array = line.split()
                 if line_array[0] == "counter":
                     if "accept" in line:
-                        accepted["all"] = int(line_array[4])
+                        accepted["others"] = int(line_array[4])
                     else:
-                        dropped["all"] = int(line_array[4])
+                        denied["others"] = int(line_array[4])
                     continue
                 key = line_array[2]
-                if key in accepted.keys():
-                    accepted[key] += int(line_array[7])
-                    continue
-                elif key in dropped.keys():
-                    dropped[key] += int(line_array[7])
                 if "accept" in line:
-                    accepted[key] = int(line_array[7])
+                    accepted[key] += int(line_array[7])
                 else:
-                    dropped[key] = int(line_array[7])
+                    denied[key] += int(line_array[7])
 
-        return accepted, dropped
+        return dict(accepted), dict(denied)
