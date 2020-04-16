@@ -29,6 +29,11 @@ class NFTables:
         """ Backups current nft configuration to a file """
         run_command(f'nft list ruleset > {cls.BACKUP_CONF_NAME}')
 
+    @staticmethod
+    def _delete_rules():
+        """ Delete all rules from nft configuration """
+        run_command('nft flush ruleset')
+
     @classmethod
     def _restore_backup(cls):
         """ Restores previous nft configuration from a file """
@@ -47,6 +52,7 @@ class NFTables:
     def apply_current_conf(cls, conf: str):
         """ Handles application of submitted nft configuration """
         cls._backup_conf()
+        cls._delete_rules()
         try:
             cls._apply_conf(conf)
         except Exception as e:
