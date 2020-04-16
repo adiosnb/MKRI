@@ -1,5 +1,6 @@
 from firewall.sys_utils.shell import run_command
 from random import randint
+from collections import defaultdict
 
 
 class NFTablesException(Exception): pass
@@ -62,8 +63,8 @@ class NFTables:
     @classmethod
     def get_stats(cls):
         """ Returns accepted and denied dictionaries containing statistics of current nft configuration """
-        accepted = {}
-        denied = {}
+        accepted = defaultdict(int)
+        denied = defaultdict(int)
 
         for line in cls.get_current_configuration().splitlines():
             if "packets" in line:
@@ -74,15 +75,11 @@ class NFTables:
                     else:
                         denied["others"] = int(line_array[4])
                     continue
-                key = line_array[2]
-                if key in accepted.keys():
-                    accepted[key] += int(line_array[7])
-                    continue
-                elif key in denied.keys():
-                    denied[key] += int(line_array[7])
-                if "accept" in line:
-                    accepted[key] = int(line_array[7])
-                else:
-                    denied[key] = int(line_array[7])
 
-        return accepted, denied
+                key = line_array[2]
+                if "accept" in line:
+                    accepted[key] += int(line_array[7])
+                else:
+                    denied[key] += int(line_array[7])
+
+        return dict(accepted), dict(denied)
