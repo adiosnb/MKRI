@@ -20,7 +20,7 @@ table inet filter {
 
 	chain encryption {
 		tcp dport https counter accept
-		tcp dport ssh counter deny
+		tcp dport ssh counter drop
 		ip protocol ah counter accept
 		meta l4proto ah counter accept
 		ip protocol esp counter accept

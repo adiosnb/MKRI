@@ -55,9 +55,9 @@ class NFTables:
 
     @classmethod
     def get_stats(cls):
-        """ Returns accepted and denied dictionaries containing statistics of current nft configuration """
+        """ Returns accepted and dropped dictionaries containing statistics of current nft configuration """
         accepted = {}
-        denied = {}
+        dropped = {}
 
         for line in cls.get_current_configuration().splitlines():
             if "packets" in line:
@@ -66,17 +66,17 @@ class NFTables:
                     if "accept" in line:
                         accepted["all"] = int(line_array[4])
                     else:
-                        denied["all"] = int(line_array[4])
+                        dropped["all"] = int(line_array[4])
                     continue
                 key = line_array[2]
                 if key in accepted.keys():
                     accepted[key] += int(line_array[7])
                     continue
-                elif key in denied.keys():
-                    denied[key] += int(line_array[7])
+                elif key in dropped.keys():
+                    dropped[key] += int(line_array[7])
                 if "accept" in line:
                     accepted[key] = int(line_array[7])
                 else:
-                    denied[key] = int(line_array[7])
+                    dropped[key] = int(line_array[7])
 
-        return accepted, denied
+        return accepted, dropped
