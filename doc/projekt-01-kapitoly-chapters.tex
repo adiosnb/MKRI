@@ -53,6 +53,13 @@ Realizovaná aplikácia implementačne zodpovedá jej predloženému návrhu. Gr
 
 Firewall je naimplementovaný pomocou podsystému jadra známeho pod menom \emph{Netfilter}. Jeho súčasťou je aj nová implementácia filtrovania prevádzky vo forme \emph{nftables}, ktoré sú ovládané cez userspace program \texttt{nft}. Webové rozhranie ponúka užívateľovi možnosť upravovať konfiguračný súbor pravidiel pre firewall, zálohovať ho a opätovne nahrať. 
 
+\begin{figure}[h]
+	\centering
+	\label{flowchart}
+	\includegraphics[scale=0.73]{obrazky-figures/flowchart.pdf}
+	\caption{Zjednodušený vývojový diagram na základné použitie aplikácie.}
+\end{figure}
+
 \chapter*{Záver}
 
 Návrh aplikácie pre konfiguráciu firewallu a jej implementácia v systéme Linux je vyriešená a vďaka virtuálnemu prostrediu je schopná fungovať na rôznych Linuxových distribúciach. 
