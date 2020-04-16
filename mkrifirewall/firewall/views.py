@@ -70,8 +70,4 @@ def rules(request):
 
 
 def process_nftables_data(data):
-    for series in data:
-        if 'all' in series.keys():
-            summed = series.pop('all')
-            series['others'] = summed - sum(series.values())
     return data
