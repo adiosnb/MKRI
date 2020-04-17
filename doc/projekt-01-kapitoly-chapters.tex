@@ -1,38 +1,36 @@
 %=========================================================================
 
 \chapter*{Úvod}
-Táto práca je dokumentáciou k samostatnému projektu z predmetu \emph{Aplikovaná kryptografie}. Samostatný projekt sa zaoberá filtrovaním sieťovej prevádzky v systéme GNU/Linux. Cieľom tohto projektu je programovo realizovať aplikáciu, ktorá má na starosť filtrovať zašifrovanú sieťovú prevádzku. Aplikácia má vytvárať štatistiky o type a množstve šifrovaných dát v sieti a ponúknuť možnosť si ich zobraziť v grafickej forme. 
+Táto práca je dokumentáciou k~samostatnému projektu z~predmetu \emph{Aplikovaná kryptografie}. Samostatný projekt sa zaoberá filtrovaním sieťovej prevádzky v~systéme GNU/Linux. Cieľom tohto projektu je programovo realizovať aplikáciu, ktorá má na starosť filtrovať zašifrovanú sieťovú prevádzku. Aplikácia má vytvárať štatistiky o~type a množstve šifrovaných dát v~sieti a ponúknuť možnosť si ich zobraziť v~grafickej forme. 
 
 \chapter{Analýza}
 V~tejto kapitole je analyzovaná problematika a spôsob riešenia, ktorý je použitý pri tvorbe tejto programovej aplikácie. Dokumentácia predpokladá, že čitateľ pozná koncepty TCP/IP sieťového modelu a Linuxového jadra.
 
 \section{Firewall a filtrovanie}
-\emph{Firewall} možno označiť ako ľubovoľné sieťové zariadenie, alebo sieťovú aplikáciu, ktorá slúži k riadeniu sieťovej prevádzky medzi logicky oddelenými sieťami. Podstata firewallu je v predefinovaných pravidlách pre jednotlivé pakety a toky na základe informácii z rôznych vrstiev ISO/OSI modelu. Firewally je možné rozdeliť do nasledujúcich kategórii na základe vývoja počítačových sietí. 
+\emph{Firewall} možno označiť ako ľubovoľné sieťové zariadenie, alebo sieťovú aplikáciu, ktorá slúži k~riadeniu sieťovej prevádzky medzi logicky oddelenými sieťami. Podstata firewallu je v~predefinovaných pravidlách pre jednotlivé pakety a toky na základe informácii z~rôznych vrstiev ISO/OSI modelu. Firewally je možné rozdeliť do nasledujúcich kategórii na základe vývoja počítačových sietí \cite{Oppliger1997}. 
 
 \begin{itemize}
 	\itemsep0em 
 	\item Paketový filter
 	\item Aplikačný filter
 	\item Stavový paketový filter
-	\item Stavový paketový filter s kontrolou protokolov ľubovoľných vrstiev ISO/OSI modelu
+	\item Stavový paketový filter s~kontrolou protokolov ľubovoľných vrstiev ISO/OSI modelu
 \end{itemize}
 
-\cite{Oppliger1997}
-
-\section{Implementácia v Linuxovom jadre}
+\section{Implementácia v~Linuxovom jadre}
 Moderné Linuxové jadro ponúka granulárnu kontrolu rôznych implementácii firewallu pre filtrovanie sieťových paketov. Práca rozoberá staršiu implementáciu filtrovania pomocou \emph{iptables} a nástupcu vo forme \emph{nftables} \cite{manpages}.
 
 \subsection{netfilter}
-\emph{netfilter} je možné reprezentovať ako framework Linuxového jadra, slúžiacia pre filtrovanie paketov, preklad sieťových adries alebo preklad sieťových portov. Jeho hlavnú úlohu v jadre plnia hooky, ktoré dovolujú meniť správanie jadra ostatným modulom. Každý paket prechádzajúci kernel prejde cez sadu hookov, ktoré môže zaregistrovať predurčený modul jadra cez callback a následne zareagovať spustením obslužnej procedúry. Netfilter hooking systém obsahuje moduly jadra ako napríklad \texttt{ip\_tables}, \texttt{ip6\_tables}, \texttt{arp\_tables} a \texttt{ebtables}, ktoré možno reprezentovať ako tabuľky pre definíciu pravidiel firewallu \cite{netfilter, manpages}. 
+\emph{netfilter} je možné reprezentovať ako framework Linuxového jadra, slúžiacia pre filtrovanie paketov, preklad sieťových adries alebo preklad sieťových portov. Jeho hlavnú úlohu v~jadre plnia hooky, ktoré dovolujú meniť správanie jadra ostatným modulom. Každý paket prechádzajúci kernel prejde cez sadu hookov, ktoré môže zaregistrovať predurčený modul jadra cez callback a následne zareagovať spustením obslužnej procedúry. Netfilter hooking systém obsahuje moduly jadra ako napríklad \texttt{ip\_tables}, \texttt{ip6\_tables}, \texttt{arp\_tables} a \texttt{ebtables}, ktoré možno reprezentovať ako tabuľky pre definíciu pravidiel firewallu \cite{netfilter, manpages}. Zjedodušené fungovanie smerovania v~module \emph{netfilter} je možné vidieť na obrázku \ref{iptables}.
 
 \subsection{iptables}
-Modul jadra \texttt{ip\_tables} spolu s userspace programom \emph{iptables} slúži na manipuláciu s tabuľkami \emph{Xtables}, ktoré umožnujú združovať sady pravidiel do reťazcov. Reťazce následne definujú jednotlivé pravidlá pre pakety a sú spracovávané sekvenčne. Pravidlá umožnujú ovyplvňovať priechod sieťovým zásobníkom, kde každý paket musí prejsť aspoň jednou tabuľkou.
+Modul jadra \texttt{ip\_tables} spolu s~userspace programom \emph{iptables} slúži na manipuláciu s~tabuľkami \emph{Xtables}, ktoré umožnujú združovať sady pravidiel do reťazcov. Reťazce následne definujú jednotlivé pravidlá pre pakety a sú spracovávané sekvenčne. Pravidlá umožnujú ovyplvňovať priechod sieťovým zásobníkom, kde každý paket musí prejsť aspoň jednou tabuľkou.
 \cite{iptables_le, netfilter, manpages}
 \begin{figure}[h]
 	\centering
-	\label{iptables}
 	\includegraphics[scale=1.07]{obrazky-figures/iptables.pdf}
-	\caption{Základné reťazce \emph{iptables} obsiahnuté v \emph{netfilteri} v tabuľke filter}
+	\caption{Základné reťazce \emph{iptables} obsiahnuté v~\emph{netfilteri} v~tabuľke filter}
+	\label{iptables}
 \end{figure}
                                                                                               
 \emph{iptables} ponúka konfiguráciu \emph{netfilteru} ako stavového paketového filtra možného filtrovať sieťovú prevádzku na základe typu protokolu, zdrojovej a cieľovej adresy, zdrojového a cieľového portu, znalostí protokolu a ich stavoch. 
@@ -41,10 +39,10 @@ Hlavným problémom \emph{iptables} a dôvodom zlej reputácie, je primárne vys
 
 \subsection{nftables}
 \label{nftables}
-Náhrada \emph{iptables} vo forme \emph{nftables} je podsystém v Linuxovom jadre, ktorý mení a nahradzuje určité časti samotného \emph{netfilteru}. Základným blokom tohto podsystému je pridanie virtuálneho stroja do Linuxového jadra, ktorý je schopný spúšťať binárny kód určený na prezeranie sieťových paketov a rozhodovanie podľa pravidiel \cite{manpages, netfilter}. 
+Náhrada \emph{iptables} vo forme \emph{nftables} je podsystém v~Linuxovom jadre, ktorý mení a nahradzuje určité časti samotného \emph{netfilteru}. Základným blokom tohto podsystému je pridanie virtuálneho stroja do Linuxového jadra, ktorý je schopný spúšťať binárny kód určený na prezeranie sieťových paketov a rozhodovanie podľa pravidiel \cite{manpages, netfilter}. 
 
                                                                                  
-\emph{nftables} neobsaujú žiaden špecifický kód naviazaný na protokol a umožnujú analyzovať aj neznáme pakety, ktorých spracovanie je definované užívateľom cez userspace program \emph{nft}. V prípade nutnosti rozšírenia samotného firewallu je teda nutné len vytvoriť nový binárny kód, ktorý je následne vložený do virtuálneho stroja na vykonávanie a mimo toho nie je potreba meniť žiadnu časť jadra.
+\emph{nftables} neobsaujú žiaden špecifický kód naviazaný na protokol a umožnujú analyzovať aj neznáme pakety, ktorých spracovanie je definované užívateľom cez userspace program \emph{nft}. V~prípade nutnosti rozšírenia samotného firewallu je teda nutné len vytvoriť nový binárny kód, ktorý je následne vložený do virtuálneho stroja na vykonávanie a mimo toho nie je potreba meniť žiadnu časť jadra.
 
 \input{app-design}
 
@@ -53,19 +51,36 @@ Realizovaná aplikácia implementačne zodpovedá jej predloženému návrhu. Gr
 
 Firewall je naimplementovaný pomocou podsystému jadra známeho pod menom \emph{Netfilter}. Jeho súčasťou je aj nová implementácia filtrovania prevádzky vo forme \emph{nftables}, ktoré sú ovládané cez userspace program \texttt{nft}. Webové rozhranie ponúka užívateľovi možnosť upravovať konfiguračný súbor pravidiel pre firewall, zálohovať ho a opätovne nahrať. 
 
+Samotný základný konfiguračný súbor detekuje šifrovanú prevádzku na základe hlavičiek tretej a štvrtej vrstvy ISO OSI modelu, prípadne cieľových a zdrojových portov štvrtej vrstvy. Vdaka tomu, že užívateľ má plnú kontrolu nad konfiguračným súborom \emph{nftables}, je možné aby filtroval čokoľvek podľa pravidiel userspace programu \cite{nftables}.
+
+\section{Testovanie a demo}
+K~aplikácií bolo aj kvôli unifikácii testovacieho prostredia a možnosti prezentácie dopísané aj virtuálne prostredie s~plnou automatizáciou predvedenia aplikácie.
+Tento cieľ bol dosiahnutý za pomoci virtuálnych prostredí v~\emph{Libvirte}, ktoré sú nakonfigurované cez \emph{Vagrant}. 
+
+Pre virtuálne systémy bola použitá distribúcia \emph{CentOS 8}, ktorá bola dostupná ako najbližšia alternatíva k~Fedore 30 a 31, kde bola aplikácia vyvíjaná. Prvý virtuálny systém, nazvaný ako \emph{generator}, slúži primárne pre naviazanie IPsec tunelu a generáciu prevádzky, ktorá ukazuje funkcionalitu aplikácie. Druhý virtuálny systém s~názvom \emph{firewall}, obsahuje už samotnú instanciu aplikácie v~celej forme s~webovým serverom. Tento systém taktiež obsahuje druhú časť IPsec tunelu a lokálny webový server presmerovaný na port 8000. Oba systémy obsahujú ich funkcionalitu v~službách a inicializácia samotného firewallu v~nft je zabezpečená nahraním základnej konfigurácie, ktorá obsahuje povolenie všetkej prevádzky, ktorá je sledovaná a rozdelená podľa typu známej použitej enkrypcie a jej typu. Zjednodušený vývojový diagram s~istou mierou abstrakcie je možné vidieť na obrázku \ref{flowchart}.
+
+\subsection{Inštalácia}
+Pre jednoduchosť overenia funkcionality stačí k~spusteniu aplikácie so automatickým demom nainštalovať \emph{Vagrant} a spustiť jeho \texttt{Vagrantfile}. Zbytok je zautomatizovaná inštalácia a pre overenie implementácie a funkčnosti stačí navštíviť lokálny webový server na adrese \texttt{localhost:8000}.
+
+\begin{enumerate}
+	\item Nainštalovať Vagrant \cite{vagrant}, možné použiť systémové "repo" v~ktorom sa zvyčajne nachádza
+	\item Spustiť a nainštalovať predpripravené virtuálne systémy Vagrantu - \texttt{vagrant up}
+	\item V~lokálnom internetovom prehliadači zadať adresu \texttt{localhost:8000}
+\end{enumerate}
+                                                                                                                                               
 \begin{figure}[h]
 	\centering
-	\label{flowchart}
 	\includegraphics[scale=0.73]{obrazky-figures/flowchart.pdf}
 	\caption{Zjednodušený vývojový diagram na základné použitie aplikácie.}
+	\label{flowchart}
 \end{figure}
 
 \chapter*{Záver}
 
-Návrh aplikácie pre konfiguráciu firewallu a jej implementácia v systéme Linux je vyriešená a vďaka virtuálnemu prostrediu je schopná fungovať na rôznych Linuxových distribúciach. 
+Návrh aplikácie pre konfiguráciu firewallu a jej implementácia v~systéme Linux je vyriešená a vďaka virtuálnemu prostrediu je schopná fungovať na rôznych Linuxových distribúciach. 
 
 Aplikácia bola naimplementovaná za pomoci userspace programov Linuxového systému za použitia webové rozhrania na ovládanie.
-Grafické webové rozhranie spĺňa zadanie pre konfiguráciu firewallu a filtráciu zašifrovanej prevádzky. Umožnuje užívateľovi ľubovoľne konfigurovať Linuxový firewall vo forme frameworku novšej časti \emph{Netfilteru} - \emph{nftables}. Aplikácia v reálnom čase sleduje prevádzku na sieti a dynamicky zobrazuje tieto údaje do grafu. 
+Grafické webové rozhranie spĺňa zadanie pre konfiguráciu firewallu a filtráciu zašifrovanej prevádzky. Umožnuje užívateľovi ľubovoľne konfigurovať Linuxový firewall vo forme frameworku novšej časti \emph{Netfilteru} - \emph{nftables}. Aplikácia v~reálnom čase sleduje prevádzku na sieti a dynamicky zobrazuje tieto údaje do grafu. 
 
 	\section{Rozdelenie práce}
 	
@@ -85,7 +100,6 @@ Grafické webové rozhranie spĺňa zadanie pre konfiguráciu firewallu a filtr�
 			\item Automatizácia - Vagrant, Shell skripty
 			\item Dokumentácia
 		\end{itemize}
-		
 	\end{itemize}
 	
 

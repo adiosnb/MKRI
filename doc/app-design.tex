@@ -1,47 +1,47 @@
 \chapter{Návrh aplikácie}
 \label{app-design}
 
-	V tejto kapitole sú popísané jednotlivé prvky firewall aplikácie, hlavne teda grafické prostredie 
-	pre správu a analýzu, ale aj jadro samotného firewallu. Celý projekt je vyvinutý v jazyku \texttt{Python3.6},
+	V~tejto kapitole sú popísané jednotlivé prvky firewall aplikácie, hlavne teda grafické prostredie 
+	pre správu a analýzu, ale aj jadro samotného firewallu. Celý projekt je vyvinutý v~jazyku \texttt{Python3.6},
 	ktorý ponúka univerzálnosť, jednoduchosť a veľa možností, ktoré uľahčujú a zrýchľujú vývoj projektov.
 
 	\section{Virtuálne prostredie}
 	\label{pipenv}
 		Celá aplikácia je vyvíjaná vo virtuálnom prostredí \texttt{pipenv}, aby bol zaručená zhoda verzií 
 		jednotlivých externých modulov na rôznych systémoch, hlavne teda počas vývoja a nasadenia aplikácie
-		na strane servera. Všetky potrebné balíky su definované aj s konkrétnymi verziami v súbore \texttt{Pipfile}.
+		na strane servera. Všetky potrebné balíky su definované aj s~konkrétnymi verziami v~súbore \texttt{Pipfile}.
 
 	\section{Grafické rozhranie}
 	\label{gui}
 		Táto aplikácia je navrhnutá, aby bežala ako služba na servery, ktorý slúži ako firewall. Jedným
-		z cieľov tohto projektu je, aby aplikácia poskytovala štatistiky vo forme grafov. Aby sme sa vyhli
+		z~cieľov tohto projektu je, aby aplikácia poskytovala štatistiky vo forme grafov. Aby sme sa vyhli
 		inštalácií grafického prostredia na firewalle, ktoré je závislé na množstve rôznych balíkov, rozhodli
-		sme sa vytvoriť užívateľské rozhranie pomocou webového frameworku \texttt{Django} (popisaný v sekcií
+		sme sa vytvoriť užívateľské rozhranie pomocou webového frameworku \texttt{Django} (popisaný v~sekcií
 		\ref{django}). Cez tento web bude možné upravovať konfiguráciu firewallu a sledovať aj dynamicky 
-		generované grafy pomocou \texttt{HighCharts} (popísaný v sekcií \ref{highcharts}).
+		generované grafy pomocou \texttt{HighCharts} (popísaný v~sekcií \ref{highcharts}).
 
 		\subsection{Django}
 		\label{django}
-			Webový framework \texttt{Django} je napísaný v jazyku \texttt{Python} a slúži na rýchly vývoj 
+			Webový framework \texttt{Django} je napísaný v~jazyku \texttt{Python} a slúži na rýchly vývoj 
 			a návrh aplikácií. Hlavnou myšlienkou je nevyvíjať už existujúce veci a riešenia, ale zamerať
-			sa hlavne na novú aplikáciu. V základe každého \texttt{Django} projektu nájdeme autentifikáciu
+			sa hlavne na novú aplikáciu. V~základe každého \texttt{Django} projektu nájdeme autentifikáciu
 			užívateľov a abstrakciu nad rôznymi databázovými systémami. Tento framework používa poupravený 
 			\texttt{Jinja2} šablónovací systém pre generovanie html stránok \cite{django}.
 		
 		\subsection{HighCharts}
 		\label{highcharts}
 			Tento JavaScriptový modul slúži na generovanie veľkého množstva rôznych interaktívnych webových
-			grafov ako napríklad čiarové, koláčové či pruhový graf. Práca s týmto modulom je veľmi jednoduchá
+			grafov ako napríklad čiarové, koláčové či pruhový graf. Práca s~týmto modulom je veľmi jednoduchá
 			a spočíva vo vytvorení reťazca dát vo formáte \texttt{JSON}, ktorý obsahuje všetky potrebné 
-			informácie. O zvyšok sa uz modul postará sám \cite{highcharts}.
+			informácie. O~zvyšok sa uz modul postará sám \cite{highcharts}.
 		        
 	\section{Firewall}
 		Tento firewall používa \texttt{nftables} na filtrovanie sieťovej trafiky. Konfigurácia môže byť 
 		zadaná priamo pomocou programu \texttt{nft} alebo pomocou webového grafického rozhrania, kde je
-		textové pole s aktuálnou konfiguráciou, ktorú možno upravovať. 
+		textové pole s~aktuálnou konfiguráciou, ktorú možno upravovať. 
 		
 	\section{Štatistika}
-		Ako zdroj dát pre generovanie grafov firewall používa čítače, ktoré sú pridané priamo v \texttt{nftables}
+		Ako zdroj dát pre generovanie grafov firewall používa čítače, ktoré sú pridané priamo v~\texttt{nftables}
 		konfigurácií. Používa aj niektoré systémové nástroje, ktoré túto štatistiku zbierajú. Tieto dáta sa 
 		načítajú a spracujú pre každú požiadavku na webový server, ktorý vygeneruje príslušné \texttt{HighCharts}
 		grafy.
