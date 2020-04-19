@@ -40,3 +40,6 @@ deploy:
 	systemctl start mkri.service
 	nft -f mkrifirewall/firewall/sys_utils/config/default-io-chain-accept-all-counter.rules
 
+zip:
+	git archive HEAD -o skupina_9.zip
+
