@@ -24,7 +24,7 @@ def stats(request):
             return None
         else:
             for key, val in data.items():
-                if accepted[max_key] < val:
+                if data[max_key] < val:
                     max_key = key
             return max_key
 
