@@ -141,3 +141,5 @@ dmypy.json
 *.nav
 *.synctex.gz
 
+# vagrant
+.vagrant
